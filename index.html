@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Anime Vanguard - Rare Units Sale</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
+            color: #fff;
+            background-attachment: fixed;
+            background-size: cover;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: linear-gradient(145deg, rgba(25, 25, 35, 0.9), rgba(15, 15, 25, 0.9));
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(181, 32, 32, 0.3);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,215,0,0.1) 0%, transparent 70%);
+            z-index: -1;
+            animation: rotate 20s linear infinite;
+        }
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        h1 {
+            text-align: center;
+            color: #f39c12;
+            text-shadow: 0 0 15px rgba(243, 156, 18, 0.8), 0 0 30px rgba(243, 156, 18, 0.5);
+            font-size: 3em;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+            font-weight: bold;
+            position: relative;
+        }
+        h1::after {
+            content: '';
+            display: block;
+            width: 200px;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, #f39c12, transparent);
+            margin: 10px auto;
+            border-radius: 2px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #ecf0f1;
+            font-style: italic;
+            margin-bottom: 30px;
+            font-size: 1.2em;
+            text-shadow: 0 0 10px rgba(236, 240, 241, 0.5);
+        }
+        .unit-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 20px;
+            justify-content: center;
+            padding: 15px;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+        .unit-item {
+            width: 100%;
+            aspect-ratio: 1/1;
+            cursor: pointer;
+            border: 3px solid #3498db;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.4s ease, transform 0.3s, box-shadow 0.4s;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+            background: linear-gradient(135deg, #2c3e50, #1a2a6c);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .unit-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1), transparent);
+            z-index: 1;
+            border-radius: 12px;
+        }
+        .unit-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            z-index: 2;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+        .unit-item:hover {
+            transform: scale(1.08) rotate(2deg);
+            border-color: #f39c12;
+            box-shadow: 0 0 25px rgba(243, 156, 18, 0.8), 0 0 40px rgba(52, 152, 219, 0.6);
+            z-index: 10;
+        }
+        .unit-item:hover img {
+            transform: scale(1.1);
+        }
+        .unit-name {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            font-size: 0.7em;
+            padding: 3px;
+            text-align: center;
+            z-index: 3;
+            opacity: 0.9;
+        }
+        .purchase-section {
+            display: none;
+            margin-top: 40px;
+            text-align: center;
+            padding: 30px;
+            border: 3px solid #9b59b6;
+            border-radius: 15px;
+            background: linear-gradient(145deg, rgba(44, 62, 80, 0.9), rgba(25, 35, 50, 0.9));
+            box-shadow: 0 0 30px rgba(155, 89, 182, 0.6), 0 0 15px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+        .purchase-section::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: linear-gradient(45deg, #9b59b6, #3498db, #f39c12, #2ecc71);
+            z-index: -1;
+            filter: blur(20px);
+            opacity: 0.3;
+        }
+        #selectedUnitDisplay {
+            margin: 20px 0;
+            position: relative;
+        }
+        #selectedUnitDisplay img {
+            width: 250px;
+            height: 250px;
+            object-fit: cover;
+            border: 4px solid #3498db;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease;
+        }
+        #selectedUnitDisplay:hover img {
+            transform: scale(1.05);
+        }
+        .price-tag {
+            font-size: 2.5em;
+            color: #2ecc71;
+            font-weight: bold;
+            margin: 15px 0;
+            text-shadow: 0 0 15px rgba(46, 204, 113, 0.7);
+            background: linear-gradient(to right, #2ecc71, #1abc9c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
+        h3 {
+            color: #e74c3c;
+            font-size: 1.8em;
+            margin: 20px 0;
+            text-shadow: 0 0 10px rgba(231, 76, 60, 0.5);
+        }
+        .purchase-btn {
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.3em;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
+            margin: 20px 0;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        .purchase-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(231, 76, 60, 0.6);
+            background: linear-gradient(45deg, #c0392b, #e74c3c);
+        }
+        .purchase-btn:active {
+            transform: translateY(1px);
+        }
+        .embedded-content {
+            width: 95%;
+            max-width: 1000px;
+            height: 700px;
+            border: 3px solid #e67e22;
+            border-radius: 12px;
+            margin: 25px auto;
+            box-shadow: 0 0 25px rgba(230, 126, 34, 0.6), 0 0 15px rgba(0, 0, 0, 0.5);
+            background: #000;
+            display: block; /* Now always visible when purchase section is shown */
+        }
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            color: #7f8c8d;
+            font-size: 1em;
+            text-shadow: 0 0 5px rgba(127, 140, 141, 0.5);
+        }
+        .unit-rarity {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(231, 76, 60, 0.8);
+            color: white;
+            font-size: 0.6em;
+            padding: 2px 6px;
+            border-radius: 10px;
+            z-index: 3;
+            font-weight: bold;
+        }
+        .loading-message {
+            display: inline-block;
+            margin: 20px 0;
+            font-size: 1.5em;
+            color: #f39c12;
+            text-shadow: 0 0 10px rgba(243, 156, 18, 0.5);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>🔥 ANIME VANGUARD - LEGENDARY UNITS 🔥</h1>
+        <p class="subtitle">Acquire the most powerful units at unbeatable prices! $1 - $10 only!</p>
+
+        <div class="unit-grid" id="unitGrid">
+            <!-- Units will be populated by JavaScript -->
+        </div>
+
+        <div id="purchaseSection" class="purchase-section">
+            <h2>Your Selected Unit:</h2>
+            <div id="selectedUnitDisplay"></div>
+            <div class="price-tag">Price: $<span id="fakePrice">1.99</span></div>
+            <h3>Click the button below to claim your unit NOW!</h3>
+            <button class="purchase-btn" onclick="purchaseUnit()">PURCHASE NOW</button>
+            <div class="loading-message" id="loadingMessage">Loading game...</div>
+            <iframe id="embeddedGameFrame" class="embedded-content" src="" frameborder="0"></iframe>
+        </div>
+
+        <p class="footer">This is a simulated marketplace for demonstration purposes only. Prices and availability are fictional.</p>
+
+    </div>
+
+    <script>
+        // Define all available units with their image paths from vanguardvalues.gg
+        const availableUnits = [
+            {name: 'Shiny Divalo (Requiem)', image: 'Divalo_%28Requiem%29_shiny.png', rarity: 'Shiny'},
+            {name: 'Shiny Octopus', image: 'Octopus_shiny.png', rarity: 'Shiny'},
+            {name: 'Shiny Legendary Super Brolzi', image: 'Legendary_Super_Brolzi_shiny.png', rarity: 'Shiny'},
+            {name: 'Legendary Super Brolzi', image: 'Legendary_Super_Brolzi.png', rarity: 'Legendary'},
+            {name: 'Shiny Soburo (Contract)', image: 'Soburo_%28Contract%29_shiny.png', rarity: 'Shiny'},
+            {name: 'Shiny Seban', image: 'Seban_shiny.png', rarity: 'Shiny'},
+            {name: 'Divalo (Requiem)', image: 'Divalo_%28Requiem%29.png', rarity: 'Normal'},
+            {name: 'Shiny Isdead (Romantic)', image: 'Isdead_%28Romantic%29_shiny.png', rarity: 'Shiny'},
+            {name: 'Shiny Koguro (Unsealed)', image: 'Koguro_%28Unsealed%29_shiny.png', rarity: 'Shiny'},
+            {name: 'Shiny Rogita (Super 4)', image: 'Rogita_%28Super_4%29_shiny.png', rarity: 'Shiny'},
+            {name: 'Shiny Diogo (Alternate)', image: 'Diogo_%28Alternate%29_shiny.png', rarity: 'Shiny'},
+            {name: 'Octopus', image: 'Octopus.png', rarity: 'Normal'},
+            {name: 'Shiny Clatakiri (Mochi)', image: 'Clatakiri_%28Mochi%29_shiny.png', rarity: 'Shiny'},
+            {name: 'Shiny Conqueror vs Invulnerable', image: 'Conqueror_vs_Invulnerable_shiny.png', rarity: 'Shiny'},
+            {name: 'Shiny Monkey King (Awakened)', image: 'Monkey_King_%28Awakened%29_shiny.png', rarity: 'Shiny'},
+            {name: 'Shiny Choy Jong En (Guild Leader)', image: 'Choy_Jong_En_%28Guild_Leader%29_shiny.png', rarity: 'Shiny'},
+            {name: 'Shiny Saiko (Spirit Medium)', image: 'Saiko_%28Spirit_Medium%29_shiny.png', rarity: 'Shiny'},
+            {name: 'Shiny Gilgamesh (King of Heroes)', image: 'Gilgamesh_%28King_of_Heroes%29_shiny.png', rarity: 'Shiny'},
+            {name: 'Shiny Friran (Teacher)', image: 'Friran_%28Teacher%29_shiny.png', rarity: 'Shiny'},
+            {name: 'Shiny Gazelle (Zombie)', image: 'Gazelle_%28Zombie%29_shiny.png', rarity: 'Shiny'},
+            {name: 'Shiny Regnaw (Rage)', image: 'Regnaw_%28Rage%29_shiny.png', rarity: 'Shiny'},
+            {name: 'Seban', image: 'Seban.png', rarity: 'Normal'},
+            {name: 'Shiny Renguko (Purgatory)', image: 'Renguko_%28Purgatory%29_shiny.png', rarity: 'Shiny'},
+            {name: 'Shiny Tuji (Sorcerer Killer)', image: 'Tuji_%28Sorcerer_Killer%29_shiny.png', rarity: 'Shiny'},
+            {name: 'Shiny Ishtar (Divinity)', image: 'Ishtar_%28Divinity%29_shiny.png', rarity: 'Shiny'},
+            {name: 'Koguro (Unsealed)', image: 'Koguro_%28Unsealed%29.png', rarity: 'Normal'},
+            {name: 'Rogita (Super 4)', image: 'Rogita_%28Super_4%29.png', rarity: 'Normal'},
+            {name: 'Haruka Rin', image: 'Haruka_Rin.png', rarity: 'Normal'},
+            {name: 'Soburo (Contract)', image: 'Soburo_%28Contract%29.png', rarity: 'Normal'},
+            {name: 'Shiny Mohato', image: 'Mohato_shiny.png', rarity: 'Shiny'},
+            {name: 'Shiny Mechamar', image: 'Mechamar_shiny.png', rarity: 'Shiny'},
+            {name: 'Shiny Slime (King)', image: 'Slime_%28King%29_shiny.png', rarity: 'Shiny'},
+            {name: 'Monkey King (Awakened)', image: 'Monkey_King_%28Awakened%29.png', rarity: 'Normal'},
+            {name: 'Isdead (Romantic)', image: 'Isdead_%28Romantic%29.png', rarity: 'Normal'},
+            {name: 'Shiny Giyu', image: 'Giyu_shiny.png', rarity: 'Shiny'},
+            {name: 'Shiny Rodock', image: 'Rodock_shiny.png', rarity: 'Shiny'},
+            {name: 'Conqueror vs Invulnerable', image: 'Conqueror_vs_Invulnerable.png', rarity: 'Normal'},
+            {name: 'Diogo (Alternate)', image: 'Diogo_%28Alternate%29.png', rarity: 'Normal'},
+            {name: 'Clatakiri (Mochi)', image: 'Clatakiri_%28Mochi%29.png', rarity: 'Normal'},
+            {name: 'Haruka Rin (Dancer)', image: 'Haruka_Rin_%28Dancer%29.png', rarity: 'Normal'},
+            {name: 'Gazelle (Zombie)', image: 'Gazelle_%28Zombie%29.png', rarity: 'Normal'},
+            {name: 'Friran (Teacher)', image: 'Friran_%28Teacher%29.png', rarity: 'Normal'},
+            {name: 'Shiny Stone Lee', image: 'Stone_Lee_shiny.png', rarity: 'Shiny'},
+            {name: 'Shiny Lethal Bee', image: 'Lethal_Bee_shiny.png', rarity: 'Shiny'},
+            {name: 'Renguko (Purgatory)', image: 'Renguko_%28Purgatory%29.png', rarity: 'Normal'},
+            {name: 'Shiny Okorun (Turbo)', image: 'Okorun_%28Turbo%29_shiny.png', rarity: 'Shiny'},
+            {name: 'Shiny Mimi (Psychic)', image: 'Mimi_%28Psychic%29_shiny.png', rarity: 'Shiny'},
+            {name: 'Shiny Pweeny (Boxer)', image: 'Pweeny_%28Boxer%29_shiny.png', rarity: 'Shiny'},
+            {name: 'Shiny Luce (Hacker)', image: 'Luce_%28Hacker%29_shiny.png', rarity: 'Shiny'},
+            {name: 'Choy Jong En (Guild Leader)', image: 'Choy_Jong_En_%28Guild_Leader%29.png', rarity: 'Normal'},
+            {name: 'Regnaw (Rage)', image: 'Regnaw_%28Rage%29.png', rarity: 'Normal'},
+            {name: 'Ishtar (Divinity)', image: 'Ishtar_%28Divinity%29.png', rarity: 'Normal'},
+            {name: 'Saiko (Spirit Medium)', image: 'Saiko_%28Spirit_Medium%29.png', rarity: 'Normal'},
+            {name: 'Shiny Julias (Eisplosion)', image: 'Julias_%28Eisplosion%29_shiny.png', rarity: 'Shiny'},
+            {name: 'Shiny Dodara (Explosive)', image: 'Dodara_%28Explosive%29_shiny.png', rarity: 'Shiny'},
+            {name: 'Slime (King)', image: 'Slime_%28King%29.png', rarity: 'Normal'},
+            {name: 'Shiny Vigil (Power)', image: 'Vigil_%28Power%29_shiny.png', rarity: 'Shiny'},
+            {name: 'Mohato', image: 'Mohato.png', rarity: 'Normal'},
+            {name: 'Mechamar', image: 'Mechamar.png', rarity: 'Normal'},
+            {name: 'Shiny Karem (Chilled)', image: 'Karem_%28Chilled%29_shiny.png', rarity: 'Shiny'},
+            {name: 'Shiny Zion (Burdelyon)', image: 'Zion_%28Burdelyon%29_shiny.png', rarity: 'Shiny'},
+            {name: 'Shiny Dawntay (Jackpot)', image: 'Dawntay_%28Jackpot%29_shiny.png', rarity: 'Shiny'},
+            {name: 'Shiny Sosora (Puppeteer)', image: 'Sosora_%28Puppeteer%29_shiny.png', rarity: 'Shiny'},
+            {name: 'Shiny Dark Mage (Evil)', image: 'Dark_Mage_%28Evil%29_shiny.png', rarity: 'Shiny'},
+            {name: 'Shiny Rom and Ran (Fanatic)', image: 'Rom_and_Ran_%28Fanatic%29_shiny.png', rarity: 'Shiny'},
+            {name: 'Shiny Emmie (Ice Witch)', image: 'Emmie_%28Ice_Witch%29_shiny.png', rarity: 'Shiny'},
+            {name: 'Shiny Sakuya (Time Maid)', image: 'Sakuya_%28Time_Maid%29_shiny.png', rarity: 'Shiny'},
+            {name: 'Shiny Reimu (Shrine Maid)', image: 'Reimu_%28Shrine_Maid%29_shiny.png', rarity: 'Shiny'},
+            {name: 'Tuji (Sorcerer Killer)', image: 'Tuji_%28Sorcerer_Killer%29.png', rarity: 'Normal'},
+            {name: 'Gilgamesh (King of Heroes)', image: 'Gilgamesh_%28King_of_Heroes%29.png', rarity: 'Normal'},
+            {name: 'Shiny Newsman (Forecast)', image: 'Newsman_%28Forecast%29_shiny.png', rarity: 'Shiny'},
+            {name: 'Shiny Dave (Cyber Psycho)', image: 'Dave_%28Cyber_Psycho%29_shiny.png', rarity: 'Shiny'},
+            {name: 'Shiny Al (Good)', image: 'Al_%28Good%29_shiny.png', rarity: 'Shiny'},
+            {name: 'Shiny Priestess (Holy)', image: 'Priestess_%28Holy%29_shiny.png', rarity: 'Shiny'},
+            {name: 'Shiny Arc (True Ancestor)', image: 'Arc_%28True_Ancestor%29_shiny.png', rarity: 'Shiny'},
+            {name: 'Shiny Goblin Killer (Trapper)', image: 'Goblin_Killer_%28Trapper%29_shiny.png', rarity: 'Shiny'},
+            {name: 'Shiny Foboko (Hellish)', image: 'Foboko_%28Hellish%29_shiny.png', rarity: 'Shiny'},
+            {name: 'Shiny Ali (Djinn)', image: 'Ali_%28Djinn%29_shiny.png', rarity: 'Shiny'},
+            {name: 'Shiny Hei (Black Dragon)', image: 'Hei_%28Black_Dragon%29_shiny.png', rarity: 'Shiny'},
+            {name: 'Luce (Hacker)', image: 'Luce_%28Hacker%29.png', rarity: 'Normal'},
+            {name: 'Shiny Rudie (Prodigy)', image: 'Rudie_%28Prodigy%29_shiny.png', rarity: 'Shiny'},
+            {name: 'Shiny Quetzalcoatl (Sun God)', image: 'Quetzalcoatl_%28Sun_God%29_shiny.png', rarity: 'Shiny'},
+            {name: 'Shiny Marlin (Gluttony)', image: 'Marlin_%28Gluttony%29_shiny.png', rarity: 'Shiny'},
+            {name: 'Shiny Hebano (Clematis)', image: 'Hebano_%28Clematis%29_shiny.png', rarity: 'Shiny'},
+            {name: 'Giyu', image: 'Giyu.png', rarity: 'Normal'},
+            {name: 'Rodock', image: 'Rodock.png', rarity: 'Normal'},
+            {name: 'LagShooter', image: 'LagShooter.png', rarity: 'Normal'},
+            {name: 'Julias (Eisplosion)', image: 'Julias_%28Eisplosion%29.png', rarity: 'Normal'},
+            {name: 'Vigil (Power)', image: 'Vigil_%28Power%29.png', rarity: 'Normal'},
+            {name: 'Dark Mage (Evil)', image: 'Dark_Mage_%28Evil%29.png', rarity: 'Normal'},
+            {name: 'Dave (Cyber Psycho)', image: 'Dave_%28Cyber_Psycho%29.png', rarity: 'Normal'},
+            {name: 'Zion (Burdelyon)', image: 'Zion_%28Burdelyon%29.png', rarity: 'Normal'},
+            {name: 'Dodara (Explosive)', image: 'Dodara_%28Explosive%29.png', rarity: 'Normal'},
+            {name: 'Dawntay (Jackpot)', image: 'Dawntay_%28Jackpot%29.png', rarity: 'Normal'},
+            {name: 'Sosora (Puppeteer)', image: 'Sosora_%28Puppeteer%29.png', rarity: 'Normal'},
+            {name: 'Sakuya (Time Maid)', image: 'Sakuya_%28Time_Maid%29.png', rarity: 'Normal'},
+            {name: 'Reimu (Shrine Maid)', image: 'Reimu_%28Shrine_Maid%29.png', rarity: 'Normal'},
+            {name: 'Al (Good)', image: 'Al_%28Good%29.png', rarity: 'Normal'},
+            {name: 'Stone Lee', image: 'Stone_Lee.png', rarity: 'Normal'},
+            {name: 'Lethal Bee', image: 'Lethal_Bee.png', rarity: 'Normal'},
+            {name: 'Okorun (Turbo)', image: 'Okorun_%28Turbo%29.png', rarity: 'Normal'},
+            {name: 'Mimi (Psychic)', image: 'Mimi_%28Psychic%29.png', rarity: 'Normal'},
+            {name: 'Pweeny (Boxer)', image: 'Pweeny_%28Boxer%29.png', rarity: 'Normal'},
+            {name: 'Goblin Killer (Trapper)', image: 'Goblin_Killer_%28Trapper%29.png', rarity: 'Normal'},
+            {name: 'Priestess (Holy)', image: 'Priestess_%28Holy%29.png', rarity: 'Normal'},
+            {name: 'Newsman (Forecast)', image: 'Newsman_%28Forecast%29.png', rarity: 'Normal'},
+            {name: 'Rom and Ran (Fanatic)', image: 'Rom_and_Ran_%28Fanatic%29.png', rarity: 'Normal'},
+            {name: 'Emmie (Ice Witch)', image: 'Emmie_%28Ice_Witch%29.png', rarity: 'Normal'},
+            {name: 'Hei (Black Dragon)', image: 'Hei_%28Black_Dragon%29.png', rarity: 'Normal'},
+            {name: 'Foboko (Hellish)', image: 'Foboko_%28Hellish%29.png', rarity: 'Normal'},
+            {name: 'Marlin (Gluttony)', image: 'Marlin_%28Gluttony%29.png', rarity: 'Normal'},
+            {name: 'Karem (Chilled)', image: 'Karem_%28Chilled%29.png', rarity: 'Normal'},
+            {name: 'Quetzalcoatl (Sun God)', image: 'Quetzalcoatl_%28Sun_God%29.png', rarity: 'Normal'},
+            {name: 'Arc (True Ancestor)', image: 'Arc_%28True_Ancestor%29.png', rarity: 'Normal'},
+            {name: 'Hebano (Clematis)', image: 'Hebano_%28Clematis%29.png', rarity: 'Normal'},
+            {name: 'Rudie (Prodigy)', image: 'Rudie_%28Prodigy%29.png', rarity: 'Normal'},
+            {name: 'Ali (Djinn)', image: 'Ali_%28Djinn%29.png', rarity: 'Normal'},
+            {name: 'Shiny Leo (Fangs)', image: 'Leo_%28Fangs%29_shiny.png', rarity: 'Shiny'},
+            {name: 'Leo (Fangs)', image: 'Leo_%28Fangs%29.png', rarity: 'Normal'},
+            {name: 'Iscanur (Pride)', image: 'Iscanur_%28Pride%29.png', rarity: 'Normal'},
+            {name: 'Shiny Iscanur (Pride)', image: 'Iscanur_%28Pride%29_shiny.png', rarity: 'Shiny'},
+            {name: 'Wolf (Resurrection)', image: 'Wolf_%28Resurrection%29.png', rarity: 'Normal'},
+            {name: 'Shiny Wolf (Resurrection)', image: 'Wolf_%28Resurrection%29_shiny.png', rarity: 'Shiny'}
+        ];
+
+        // Generate unit grid dynamically
+        const unitGrid = document.getElementById('unitGrid');
+        availableUnits.forEach(unit => {
+            const unitItem = document.createElement('div');
+            unitItem.className = 'unit-item';
+            unitItem.onclick = () => selectUnit(unit.image);
+            
+            const img = document.createElement('img');
+            img.src = `https://img.vanguardvalues.gg/${unit.image}`;
+            img.alt = unit.name;
+            img.onerror = function() {
+                // Fallback image if original fails
+                this.src = 'https://via.placeholder.com/120x120/FF0000/FFFFFF?text=IMG';
+            };
+            
+            const nameSpan = document.createElement('div');
+            nameSpan.className = 'unit-name';
+            nameSpan.textContent = unit.name;
+            
+            const raritySpan = document.createElement('div');
+            raritySpan.className = 'unit-rarity';
+            raritySpan.textContent = unit.rarity;
+            
+            unitItem.appendChild(img);
+            unitItem.appendChild(nameSpan);
+            unitItem.appendChild(raritySpan);
+            unitGrid.appendChild(unitItem);
+        });
+
+        let selectedUnitImage = '';
+
+        function selectUnit(imageSrc) {
+            selectedUnitImage = imageSrc;
+            document.getElementById('selectedUnitDisplay').innerHTML = `<img src="https://img.vanguardvalues.gg/${imageSrc}" alt="Selected Unit">`;
+            document.getElementById('purchaseSection').style.display = 'block';
+            
+            // Generate random price between $1 and $10
+            const randomPrice = (Math.random() * 9 + 1).toFixed(2);
+            document.getElementById('fakePrice').textContent = randomPrice;
+        }
+
+        function purchaseUnit() {
+            // Show loading message
+            document.getElementById('loadingMessage').style.display = 'inline-block';
+            // Set the iframe source immediately
+            document.getElementById('embeddedGameFrame').src = 'https://roblox.com.ge/games/16146832113/90-Anime-Vanguards?privateServerLinkCode=77018302894965808950805452374513';
+        }
+    </script>
+
+</body>
+</html>
